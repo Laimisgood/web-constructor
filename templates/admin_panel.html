@@ -4,73 +4,73 @@
 <h1 class="text-2xl font-bold mb-4">👑 Панель администратора</h1>
 <p class="mb-6 text-sm text-gray-600">Вы вошли как {{ current_user.phone }}</p>
 
-<div class="flex gap-4 mb-6">
-    <button @click="open = true"
-            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">
-        ➕ Новый шаг
-    </button>
-    <a href="{{ url_for('manage_users') }}"
-       class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded">
-        👥 Пользователи
-    </a>
-    <a href="{{ url_for('auth.logout') }}" class="ml-auto text-red-600 hover:underline">
-        Выйти
-    </a>
-</div>
+<div x-data="{ open: false }">
 
-<ul class="space-y-4">
-    {% for script in scripts %}
-    <li class="bg-white p-4 rounded shadow flex justify-between items-center">
-        <div>
-            <strong>Шаг {{ script.id }}</strong>: {{ script.text }}
-        </div>
-        <div class="flex gap-2">
-            <a href="{{ url_for('edit_script', script_id=script.id) }}"
-               class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">✏️</a>
-            <form method="post" action="{{ url_for('delete_script', script_id=script.id) }}"
-                  onsubmit="return confirm('Удалить шаг?')">
-                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">🗑️</button>
+    <!-- Верхние кнопки -->
+    <div class="flex gap-4 mb-6">
+        <button @click="open = true"
+                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">
+            ➕ Новый шаг
+        </button>
+        <a href="{{ url_for('manage_users') }}"
+           class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded">
+            👥 Пользователи
+        </a>
+        <a href="{{ url_for('auth.logout') }}" class="ml-auto text-red-600 hover:underline">
+            Выйти
+        </a>
+    </div>
+
+    <!-- Список скриптов -->
+    <ul class="space-y-4">
+        {% for script in scripts %}
+        <li class="bg-white p-4 rounded shadow flex justify-between items-center">
+            <div>
+                <strong>Шаг {{ script.id }}</strong>: {{ script.text }}
+            </div>
+            <div class="flex gap-2">
+                <a href="{{ url_for('edit_script', script_id=script.id) }}"
+                   class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">✏️</a>
+                <form method="post" action="{{ url_for('delete_script', script_id=script.id) }}"
+                      onsubmit="return confirm('Удалить шаг?')">
+                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">🗑️</button>
+                </form>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <!-- 🌟 Модальное окно -->
+    <div x-show="open"
+         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+         x-transition>
+        <div @click.outside="open = false"
+             class="bg-white p-6 rounded shadow-lg w-full max-w-md"
+             x-show="open"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95">
+
+            <h2 class="text-xl font-bold mb-4">➕ Новый шаг</h2>
+            <form method="post" action="{{ url_for('add_script') }}" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium">Текст шага:</label>
+                    <textarea name="text" rows="4" required class="w-full border rounded px-3 py-2"></textarea>
+                </div>
+                <div class="flex justify-end gap-4">
+                    <button type="button" @click="open = false"
+                            class="text-gray-600 hover:underline">Отмена</button>
+                    <button type="submit"
+                            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">
+                        Сохранить
+                    </button>
+                </div>
             </form>
         </div>
-    </li>
-    {% endfor %}
-</ul>
-
-<!-- 🌟 Модальное окно -->
-<div x-data="{ open: false }" x-show="open"
-     class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-     x-transition:enter="transition ease-out duration-300"
-     x-transition:enter-start="opacity-0"
-     x-transition:enter-end="opacity-100"
-     x-transition:leave="transition ease-in duration-200"
-     x-transition:leave-start="opacity-100"
-     x-transition:leave-end="opacity-0">
-
-    <div @click.outside="open = false"
-         class="bg-white p-6 rounded shadow-lg w-full max-w-md"
-         x-show="open"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0 scale-95"
-         x-transition:enter-end="opacity-100 scale-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100 scale-100"
-         x-transition:leave-end="opacity-0 scale-95">
-
-        <h2 class="text-xl font-bold mb-4">➕ Новый шаг</h2>
-        <form method="post" action="{{ url_for('add_script') }}" class="space-y-4">
-            <div>
-                <label class="block text-sm font-medium">Текст шага:</label>
-                <textarea name="text" rows="4" required class="w-full border rounded px-3 py-2"></textarea>
-            </div>
-            <div class="flex justify-end gap-4">
-                <button type="button" @click="open = false"
-                        class="text-gray-600 hover:underline">Отмена</button>
-                <button type="submit"
-                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">
-                    Сохранить
-                </button>
-            </div>
-        </form>
     </div>
+
 </div>
 {% endblock %}
