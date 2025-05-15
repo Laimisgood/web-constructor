@@ -51,7 +51,7 @@ def home():
         if current_user.role == 'admin':
             return redirect(url_for('admin_panel'))
         else:
-            return redirect(url_for('operator_panel'))
+            return redirect(url_for('operator_view'))
     return redirect(url_for('auth.login'))
 
 @app.route('/admin')
@@ -65,7 +65,7 @@ def admin_panel():
 @login_required
 def script_start():
     if current_user.role != 'admin':
-        return redirect(url_for('operator_panel'))  # 🚫 операторов разворачиваем
+        return redirect(url_for('operator_view'))  # 🚫 операторов разворачиваем
     return redirect(url_for('script_step', step_id=1))
 
 
@@ -178,7 +178,7 @@ def create_user():
 
 @app.route('/operator')
 @login_required
-def operator_panel():
+def operator_view():
     scripts = Script.query.all()
     return render_template('operator_list.html', scripts=scripts)
 
