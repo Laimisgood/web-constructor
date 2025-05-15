@@ -5,7 +5,6 @@ from flask_login import login_user, logout_user, login_required, current_user
 from models import db, User
 from functools import wraps
 
-# Декоратор для проверки администратора
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -14,7 +13,6 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# Blueprint для авторизации
 auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
@@ -26,10 +24,17 @@ def login():
 
         if user and user.check_password(password):
             login_user(user)
-            if user.role == 'admin':
-                return redirect(url_for('admin_panel'))
-            else:
-                return redirect(url_for('operator_panel'))  # 👈 теперь точно ведёт на список скриптов
+
+            # 🔧 Принудительно направляем куда надо
+            next_page = request.args.get('next')
+            if not next_page or not next_page.startswith('/'):
+                if user.role == 'admin':
+                    next_page = url_for('admin_panel')
+                else:
+                    next_page = url_for('operator_panel')
+
+            return redirect(next_page)
+
         flash("Неверный номер или пароль")
     return render_template('login.html')
 
