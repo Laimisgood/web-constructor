@@ -25,15 +25,11 @@ def login():
         if user and user.check_password(password):
             login_user(user)
 
-            # 🔧 Принудительно направляем куда надо
-            next_page = request.args.get('next')
-            if not next_page or not next_page.startswith('/'):
-                if user.role == 'admin':
-                    next_page = url_for('admin_panel')
-                else:
-                    next_page = url_for('operator_panel')
-
-            return redirect(next_page)
+            # ❌ Полностью игнорируем ?next
+            if user.role == 'admin':
+                return redirect(url_for('admin_panel'))
+            else:
+                return redirect(url_for('operator_panel'))
 
         flash("Неверный номер или пароль")
     return render_template('login.html')

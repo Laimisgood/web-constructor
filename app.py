@@ -64,11 +64,10 @@ def admin_panel():
 @app.route('/script')
 @login_required
 def script_start():
-    first = Script.query.order_by(Script.id).first()
-    if first:
-        return redirect(url_for('script_step', step_id=first.id))
-    flash("Скриптов пока нет")
-    return redirect(url_for('auth.logout'))
+    if current_user.role != 'admin':
+        return redirect(url_for('operator_panel'))  # 🚫 операторов разворачиваем
+    return redirect(url_for('script_step', step_id=1))
+
 
 
 @app.route('/script/<int:step_id>')
