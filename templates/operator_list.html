@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %}Скрипты оператора{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">📋 Доступные шаги</h1>
+
+<ul class="space-y-4">
+    {% for script in scripts %}
+    <li class="bg-white p-4 rounded shadow">
+        <strong>Шаг {{ script.id }}</strong>: {{ script.text }}
+        <ul class="mt-2 space-y-1">
+            {% for opt in script.options %}
+            <li class="text-sm text-gray-600">➡ {{ opt.text }} → шаг {{ opt.next_id }}</li>
+            {% endfor %}
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+
+<div class="mt-6">
+    <a href="{{ url_for('auth.logout') }}" class="text-red-600 hover:underline">🔓 Выйти</a>
+</div>
+{% endblock %}

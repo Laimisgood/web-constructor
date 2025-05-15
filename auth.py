@@ -27,7 +27,7 @@ def login():
             if user.role == 'admin':
                 return redirect(url_for('admin_panel'))
             else:
-                return redirect(url_for('script_start'))
+                return redirect(url_for('operator_panel'))
         flash("Неверный номер или пароль")
     return render_template('login.html')
 

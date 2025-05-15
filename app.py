@@ -177,6 +177,13 @@ def create_user():
     flash("Пользователь создан.")
     return redirect(url_for('manage_users'))
 
+@app.route('/operator')
+@login_required
+def operator_panel():
+    scripts = Script.query.all()
+    return render_template('operator_list.html', scripts=scripts)
+
+
 # в самом конце app.py
 if __name__ == '__main__':
     with app.app_context():
