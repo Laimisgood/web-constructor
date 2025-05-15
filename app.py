@@ -64,7 +64,12 @@ def admin_panel():
 @app.route('/script')
 @login_required
 def script_start():
-    return redirect(url_for('script_step', step_id=1))  # первый шаг
+    first = Script.query.order_by(Script.id).first()
+    if first:
+        return redirect(url_for('script_step', step_id=first.id))
+    flash("Скриптов пока нет")
+    return redirect(url_for('auth.logout'))
+
 
 @app.route('/script/<int:step_id>')
 @login_required
