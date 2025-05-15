@@ -140,3 +140,12 @@ def create_user():
     db.session.commit()
     flash("Пользователь создан.")
     return redirect(url_for('manage_users'))
+
+@app.route('/')
+def home():
+    if current_user.is_authenticated:
+        if current_user.role == 'admin':
+            return redirect(url_for('admin_panel'))
+        else:
+            return redirect(url_for('script_start'))
+    return redirect(url_for('auth.login'))
