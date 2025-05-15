@@ -1,0 +1,52 @@
+body {
+    font-family: sans-serif;
+    max-width: 800px;
+    margin: auto;
+    background: #f7f7f7;
+    padding: 2em;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.form {
+    margin-bottom: 1em;
+}
+
+input[type="text"] {
+    width: 70%;
+    padding: 0.5em;
+    margin-right: 0.5em;
+}
+
+button {
+    padding: 0.5em 1em;
+    cursor: pointer;
+}
+
+.flash {
+    background: #dff0d8;
+    border: 1px solid #3c763d;
+    color: #3c763d;
+    padding: 0.5em;
+    list-style: none;
+}
+
+.script-list {
+    list-style: none;
+    padding: 0;
+}
+
+.script-item {
+    background: white;
+    padding: 1em;
+    margin-bottom: 1em;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.actions {
+    margin-top: 0.5em;
+}

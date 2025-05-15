@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block title %}Редактирование шага{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">✏️ Редактировать шаг #{{ script.id }}</h1>
+
+<form method="post" class="space-y-4">
+    <div>
+        <label class="block text-sm font-medium">Текст шага:</label>
+        <textarea name="text" rows="4" required class="w-full border rounded px-3 py-2">{{ script.text }}</textarea>
+    </div>
+
+    <h2 class="text-lg font-semibold mt-4">Варианты перехода:</h2>
+    <div id="options" class="space-y-2">
+        {% for opt in script.options %}
+        <div class="flex gap-2">
+            <input name="opt_text" value="{{ opt.text }}" class="flex-1 border rounded px-3 py-1" placeholder="Текст ответа">
+            <input name="opt_next" value="{{ opt.next_id }}" class="w-24 border rounded px-3 py-1" placeholder="→ шаг">
+        </div>
+        {% endfor %}
+        <div class="flex gap-2">
+            <input name="opt_text" class="flex-1 border rounded px-3 py-1" placeholder="Новый ответ">
+            <input name="opt_next" class="w-24 border rounded px-3 py-1" placeholder="→ шаг">
+        </div>
+    </div>
+
+    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Сохранить</button>
+    <a href="{{ url_for('admin_panel') }}" class="text-gray-600 hover:underline ml-4">Назад</a>
+</form>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block title %}Редактировать пользователя{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">✏️ Редактировать пользователя</h1>
+
+<p class="mb-4"><strong>Телефон:</strong> {{ user.phone }}</p>
+
+<form method="post" class="space-y-4">
+    <div>
+        <label class="block text-sm font-medium">Роль:</label>
+        <select name="role" class="w-full border rounded px-3 py-2">
+            <option value="operator" {% if user.role == 'operator' %}selected{% endif %}>Оператор</option>
+            <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Администратор</option>
+        </select>
+    </div>
+
+    <div>
+        <label class="block text-sm font-medium">Новый пароль (если нужно):</label>
+        <input type="password" name="password" class="w-full border rounded px-3 py-2">
+    </div>
+
+    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Сохранить</button>
+    <a href="{{ url_for('manage_users') }}" class="text-gray-600 hover:underline ml-4">Назад</a>
+</form>
+{% endblock %}

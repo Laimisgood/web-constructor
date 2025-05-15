@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>CallScript</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body>
+    <h1>📞 CallScript — Скрипты звонков</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flash">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form action="/add" method="post" class="form">
+        <input type="text" name="text" placeholder="Введите шаг скрипта..." required>
+        <button type="submit">➕ Добавить шаг</button>
+    </form>
+
+    <hr>
+
+    <ul class="script-list">
+        {% for script in scripts %}
+        <li class="script-item">
+            <div>
+                <strong>ID {{ script.id }}</strong>: {{ script.text }}
+                <br>
+                {% if script.options %}
+                    <ul>
+                        {% for option in script.options %}
+                            <li>➡ {{ option.text }} → шаг {{ option.next }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <em>Нет вариантов ответа</em>
+                {% endif %}
+            </div>
+            <div class="actions">
+                <a href="/edit/{{ script.id }}">✏️ Редактировать</a>
+                <form action="/delete/{{ script.id }}" method="post" onsubmit="return confirm('Удалить этот шаг?')" style="display:inline;">
+                    <button type="submit">🗑️ Удалить</button>
+                </form>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Редактировать пользователя</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<h2>✏️ Редактировать пользователя</h2>
+<p><strong>Телефон:</strong> {{ user.phone }}</p>
+
+<form method="post">
+    <label>Роль:</label><br>
+    <select name="role">
+        <option value="operator" {% if user.role == 'operator' %}selected{% endif %}>Оператор</option>
+        <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Администратор</option>
+    </select><br><br>
+
+    <label>Новый пароль (если нужно изменить):</label><br>
+    <input type="password" name="password"><br><br>
+
+    <button type="submit">💾 Сохранить</button>
+    <a href="{{ url_for('manage_users') }}">Отмена</a>
+</form>
+</body>
+</html>

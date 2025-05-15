@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">🔐 Вход</h1>
+
+<form method="post" class="space-y-4">
+    <div>
+        <label class="block text-sm font-medium">Номер телефона</label>
+        <input type="text" name="phone" required class="w-full border rounded px-3 py-2">
+    </div>
+    <div>
+        <label class="block text-sm font-medium">Пароль</label>
+        <input type="password" name="password" required class="w-full border rounded px-3 py-2">
+    </div>
+    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">
+        Войти
+    </button>
+</form>
+{% endblock %}

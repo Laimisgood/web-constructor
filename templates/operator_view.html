@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block title %}Скрипт оператора{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">📞 Скрипт оператора</h1>
+
+<div class="bg-white rounded shadow p-4 mb-6">
+    <p class="text-lg font-semibold">{{ step.text }}</p>
+</div>
+
+{% if step.options %}
+    <ul class="space-y-2">
+        {% for option in step.options %}
+        <li>
+            <a href="{{ url_for('script_step', step_id=option.next_id) }}"
+               class="block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">
+                {{ option.text }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p class="italic text-gray-500">Нет дальнейших шагов.</p>
+{% endif %}
+
+<div class="mt-6">
+    <a href="{{ url_for('auth.logout') }}" class="text-red-600 hover:underline">Выйти</a>
+</div>
+{% endblock %}
