@@ -27,6 +27,14 @@ login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
 with app.app_context():
     db.create_all()
+    if not User.query.filter_by(phone="998901234567").first():
+        admin = User(phone="998901234567", role="admin")
+        admin.set_password("adminpass")
+        db.session.add(admin)
+        db.session.commit()
+        print("✅ Админ создан")
+
+
 
 
 @login_manager.user_loader
