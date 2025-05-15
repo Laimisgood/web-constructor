@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}CallScript{% endblock %}</title>
-
-    <!-- Tailwind CSS (оставляем как есть) -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-900 min-h-screen">
@@ -23,7 +21,7 @@
         {% block content %}{% endblock %}
     </div>
 
-    <!-- ✅ Alpine.js должен быть здесь -->
-    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- ✅ Alpine.js подключён явно -->
+    <script src="https://unpkg.com/alpinejs@3.13.7/dist/cdn.min.js"></script>
 </body>
 </html>
