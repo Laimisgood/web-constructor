@@ -8,7 +8,7 @@ db = SQLAlchemy()
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     phone = db.Column(db.String(20), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
+    password_hash = db.Column(db.Text, nullable=False)
     role = db.Column(db.String(20), default='operator')  # admin/operator
 
     def set_password(self, password):

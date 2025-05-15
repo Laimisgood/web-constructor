@@ -26,6 +26,8 @@ login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
 with app.app_context():
+    if os.path.exists("db.sqlite"):
+        os.remove("db.sqlite")  # удалим сломанную БД
     db.create_all()
     if not User.query.filter_by(phone="998901234567").first():
         admin = User(phone="998901234567", role="admin")
@@ -164,7 +166,7 @@ def create_user():
         return redirect(url_for('manage_users'))
 
     user = User(phone=phone, role=role)
-    user.set_password(password)
+    user.set_password(password)  # ← ⚠️ вот это обязательно!
     db.session.add(user)
     db.session.commit()
     flash("Пользователь создан.")
