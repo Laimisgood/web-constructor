@@ -26,8 +26,6 @@ login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
 with app.app_context():
-    if os.path.exists("db.sqlite"):
-        os.remove("db.sqlite")  # удалим сломанную БД
     db.create_all()
     if not User.query.filter_by(phone="998901234567").first():
         admin = User(phone="998901234567", role="admin")
