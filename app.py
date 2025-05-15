@@ -1,18 +1,27 @@
 # app.py
 
+import logging
 from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_login import LoginManager, login_required, current_user
 from models import db, User, Script, Option
 from auth import auth_bp, admin_required
 
+# Включаем логгинг для отладки
+logging.basicConfig(level=logging.DEBUG)
+
+# Flask-приложение
 app = Flask(__name__)
 app.secret_key = 'super_secret'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# Инициализация базы данных
 db.init_app(app)
+
+# Подключение Blueprints
 app.register_blueprint(auth_bp)
 
+# Flask-Login
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
@@ -21,7 +30,16 @@ login_manager.init_app(app)
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# ---------- Роуты -----------
+# ---------- Роуты ----------
+
+@app.route('/')
+def home():
+    if current_user.is_authenticated:
+        if current_user.role == 'admin':
+            return redirect(url_for('admin_panel'))
+        else:
+            return redirect(url_for('script_start'))
+    return redirect(url_for('auth.login'))
 
 @app.route('/admin')
 @login_required
@@ -140,12 +158,3 @@ def create_user():
     db.session.commit()
     flash("Пользователь создан.")
     return redirect(url_for('manage_users'))
-
-@app.route('/')
-def home():
-    if current_user.is_authenticated:
-        if current_user.role == 'admin':
-            return redirect(url_for('admin_panel'))
-        else:
-            return redirect(url_for('script_start'))
-    return redirect(url_for('auth.login'))
