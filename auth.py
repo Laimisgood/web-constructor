@@ -24,7 +24,10 @@ def login():
         user = User.query.filter_by(phone=phone).first()
         if user and user.check_password(password):
             login_user(user)
-            return redirect(url_for('index'))
+            if user.role == 'admin':
+                return redirect(url_for('admin_panel'))
+            else:
+                return redirect(url_for('script_start'))
         flash("Неверный номер или пароль")
     return render_template('login.html')
 
