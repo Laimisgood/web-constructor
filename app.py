@@ -25,6 +25,9 @@ app.register_blueprint(auth_bp)
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
+with app.app_context():
+    db.create_all()
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -158,3 +161,8 @@ def create_user():
     db.session.commit()
     flash("Пользователь создан.")
     return redirect(url_for('manage_users'))
+
+# в самом конце app.py
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
