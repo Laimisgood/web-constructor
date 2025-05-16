@@ -5,6 +5,7 @@ from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_login import LoginManager, login_required, current_user
 from models import db, User, Script, Option
 from auth import auth_bp, admin_required
+import os
 
 # Включаем логгинг для отладки
 logging.basicConfig(level=logging.DEBUG)
@@ -12,7 +13,7 @@ logging.basicConfig(level=logging.DEBUG)
 # Flask-приложение
 app = Flask(__name__)
 app.secret_key = 'super_secret'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('dpg-d0jetf3e5dus73cego0g-a')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Инициализация базы данных
